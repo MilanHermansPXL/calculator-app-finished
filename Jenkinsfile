@@ -1,23 +1,27 @@
 pipeline {
     agent any
     tools {
-        nodejs 'TINnode-devops' // Zorg ervoor dat Node.js correct is ingesteld
+        nodejs 'TINnode-devops'
     }
     stages {
-        stage('Install dependencies') {
-            steps {
-                sh 'npm install' // Installeer Node.js afhankelijkheden
+        stage('install dependencies'){
+            steps{
+                sh 'npm install express'
             }
         }
-        stage('Run unit tests') {
+        stage('Hello') {
             steps {
-                sh 'npm test tests/calculator.test.js' // Voer de unittests uit
+                git branch: 'main', credentialsId: 'github', url: 'git@github.com:PXL-2TIN-Devops-2425/ci-in-jenkins-team-zoutkorrel.git'
             }
         }
-        stage('Publish JUnit reports') {
-            steps {
-                // Als je een JUnit XML-rapport hebt, kun je dat hier publiceren, bijvoorbeeld:
-                junit '**/test-results.xml'
+        stage('fetching source'){
+            steps{
+                git branch: 'main', credentialsId: 'github', url: 'git@github.com:MilanHermansPXL/calculator-app-finished.git'
+            }
+        }
+        stage("unittest"){
+            steps{
+                sh 'npm test tests/calculator.test.js' 
             }
         }
     }
