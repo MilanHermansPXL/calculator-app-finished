@@ -1,22 +1,12 @@
 pipeline {
     agent any
     tools {
-        nodejs 'TINnode-devops' // Zorg dat de Node.js installatie correct geconfigureerd is in Jenkins
+        nodejs 'TINnode-devops' // Zorg ervoor dat Node.js correct is ingesteld
     }
     stages {
         stage('Install dependencies') {
             steps {
-                sh 'npm install' // Installeer alle afhankelijkheden gedefinieerd in package.json
-            }
-        }
-        stage('Clone main repository') {
-            steps {
-                git branch: 'main', credentialsId: 'github', url: 'git@github.com:PXL-2TIN-Devops-2425/ci-in-jenkins-team-zoutkorrel.git'
-            }
-        }
-        stage('Fetch calculator source') {
-            steps {
-                git branch: 'main', credentialsId: 'github', url: 'git@github.com:MilanHermansPXL/calculator-app-finished.git'
+                sh 'npm install' // Installeer Node.js afhankelijkheden
             }
         }
         stage('Run unit tests') {
@@ -24,10 +14,10 @@ pipeline {
                 sh 'npm test tests/calculator.test.js' // Voer de unittests uit
             }
         }
-        stage('Run JUnit tests') {
+        stage('Publish JUnit reports') {
             steps {
-                sh 'mvn test' // Voer Maven tests uit
-                junit 'target/surefire-reports/*.xml' // Verwerk JUnit-rapporten
+                // Als je een JUnit XML-rapport hebt, kun je dat hier publiceren, bijvoorbeeld:
+                junit '**/test-results.xml'
             }
         }
     }
