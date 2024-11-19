@@ -24,5 +24,16 @@ pipeline {
                 sh 'npm test tests/calculator.test.js' 
             }
         }
+        stage('Integration') {
+            junit 'test-results.xml'
+        }
+
+        junit 'more-test-results.xml'
+
+        stage('Ignored') {
+            withChecks('Integration Tests') {
+            junit 'yet-more-test-results.xml'
+            }
+        }
     }
 }
