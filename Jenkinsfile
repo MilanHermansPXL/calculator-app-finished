@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Checkout Source') {
             steps {
-                sh 'git clone -b main git@github.com:MilanHermansPXL/calculator-app-finished.git'
+                git branch: 'main', credentialsId: 'github', url: 'git@github.com:MilanHermansPXL/calculator-app-finished.git'
             }
         }
         stage('Unit Test') {
