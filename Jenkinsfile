@@ -20,8 +20,8 @@ pipeline {
                 junit 'junit.xml' 
             }
         }
-        stage("create bundle"){
-            steps{
+        stage("Create Bundle") {
+            steps {
                 sh 'mkdir -p bundle'
                 sh 'cp -r package.json package-lock.json bundle/'
                 sh 'zip -r bundle.zip bundle'
@@ -33,8 +33,13 @@ pipeline {
         always {
             archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true
         }
-        failure{
-            echo ''
+        success {
+            // Archiveer de bundle.zip als het succesvol is
+            archiveArtifacts artifacts: 'bundle.zip', allowEmptyArchive: false
+        }
+        failure {
+            // Schrijf foutmelding naar jenkinserrorlog met de datum en tijd
+            sh 'echo "Pipeline poging faalt op $(date)" >> ~/jenkinserrorlog'
         }
     }
 }
