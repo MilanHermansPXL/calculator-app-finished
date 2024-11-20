@@ -25,7 +25,7 @@ pipeline {
                 sh 'mkdir -p bundle'
                 sh 'cp -r package.json package-lock.json bundle/'
                 sh 'zip -r bundle.zip bundle'
-                sh 'tree bundle'
+                sh 'ls -a bundle'
             }
         }
     }
