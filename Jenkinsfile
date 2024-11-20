@@ -4,25 +4,32 @@ pipeline {
         nodejs 'TINnode-devops'
     }
     stages {
-        stage('install dependencies'){
-            steps{
-                sh 'npm install express'
-            }
-        }
-        stage('Hello') {
+        stage('Install Dependencies') {
             steps {
-                git branch: 'main', credentialsId: 'github', url: 'git@github.com:PXL-2TIN-Devops-2425/ci-in-jenkins-team-zoutkorrel.git'
+                sh 'npm install'
             }
         }
-        stage('fetching source'){
-            steps{
+        stage('Checkout Source') {
+            steps {
                 git branch: 'main', credentialsId: 'github', url: 'git@github.com:MilanHermansPXL/calculator-app-finished.git'
             }
         }
-        stage("unittest"){
-            steps{
-                sh 'npm test tests/calculator.test.js' 
+        stage('Unit Test') {
+            steps {
+                sh 'npm test' // Voer de tests uit
+                junit 'junit.xml' // Koppel het JUnit-rapport aan de build
             }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true
+        }
+        success {
+            echo 'Unit tests executed successfully!'
+        }
+        failure {
+            echo 'Unit tests failed!'
         }
     }
 }
