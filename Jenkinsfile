@@ -20,6 +20,13 @@ pipeline {
                 junit 'junit.xml' 
             }
         }
+        stage("create bundle"){
+            steps{
+                sh 'mkdir -p bundle'
+                sh 'cp -r src package.json package-lock.json bundle/'
+                sh 'zip -r bundle.zip bundle'
+            }
+        }
     }
     post {
         always {
