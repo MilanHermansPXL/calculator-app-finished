@@ -11,27 +11,46 @@ pipeline {
         }
         stage('Checkout Source') {
             steps {
-                git branch: 'main', credentialsId: 'github', url: 'git@github.com:MilanHermansPXL/calculator-app-finished.git'
+                sh 'git clone -b main git@github.com:MilanHermansPXL/calculator-app-finished.git'
             }
         }
         stage('Unit Test') {
             steps {
                 sh 'npm test' 
-                junit 'junit.xml' 
+                sh 'junit junit.xml'
             }
         }
-        stage("create bundle"){
-            steps{
+        stage("Create Bundle") {
+            steps {
+                // Maak de map "bundle"
                 sh 'mkdir -p bundle'
-                sh 'cp -r package.json package-lock.json bundle/'
+                
+                // Kopieer benodigde bestanden
+                sh 'cp -r package.json bundle/'
+                sh 'cp -r package-lock.json bundle/'
+
+                // Maak een zip-bestand van de "bundle"-map
                 sh 'zip -r bundle.zip bundle'
+
+                // Controleer of de map correct gevuld is
                 sh 'ls -a bundle'
             }
         }
     }
     post {
         always {
+            // Archiveer de testresultaten
             archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true
+        }
+        success {
+            // Archiveer het zip-bestand als de pipeline slaagt
+            archiveArtifacts artifacts: 'bundle.zip', allowEmptyArchive: false
+            sh 'echo "Pipeline voltooid: bundle.zip is gearchiveerd."'
+        }
+        failure {
+            // Schrijf foutmelding naar jenkinserrorlog
+            sh 'echo "Pipeline poging faalt op $(date)" >> ~/jenkinserrorlog'
+            sh 'echo "Pipeline is gefaald: foutmelding opgeslagen in jenkinserrorlog."'
         }
     }
 }
