@@ -25,7 +25,6 @@ pipeline {
                 sh 'mkdir -p bundle'
                 sh 'cp -r package.json package-lock.json bundle/'
                 sh 'zip -r bundle.zip bundle'
-                sh 'ls -a bundle'
             }
         }
     }
@@ -34,11 +33,9 @@ pipeline {
             archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true
         }
         success {
-            // Archiveer de bundle.zip als het succesvol is
             archiveArtifacts artifacts: 'bundle.zip', allowEmptyArchive: false
         }
         failure {
-            // Schrijf foutmelding naar jenkinserrorlog met de datum en tijd
             sh 'echo "Pipeline poging faalt op $(date)" >> ~/jenkinserrorlog'
         }
     }
