@@ -39,7 +39,7 @@ pipeline {
                     sh '''
                         rsync -av --exclude="*" --include="src/" --include="package.json" --include="package-lock.json" --include="config/**" ./ bundle/
                     '''
-                    
+                    sh 'ls -l bundle/'
                     // Maak een zip van de map 'bundle'
                     sh 'zip -r bundle.zip bundle'
                 }
