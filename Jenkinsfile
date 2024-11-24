@@ -38,8 +38,7 @@ pipeline {
                 sh 'zip -r bundle.zip bundle' 
             }
         }
-
-
+    }
     post {
         always {
             archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true 
@@ -48,9 +47,7 @@ pipeline {
             archiveArtifacts artifacts: 'bundle.zip', allowEmptyArchive: false
         }
         failure {
-            
             sh 'echo "Pipeline poging faalt op $(date)" >> ~/jenkinserrorlog'
         }
     }
 }
-
