@@ -23,7 +23,7 @@ pipeline {
         stage("Create Bundle") {
             steps {
                 sh 'mkdir -p bundle'
-                sh 'cp -r package.json package-lock.json bundle/'
+                sh 'rsync -av --exclude="node_modules" --exclude=".*" ./ bundle/'
                 sh 'zip -r bundle.zip bundle'
             }
         }
