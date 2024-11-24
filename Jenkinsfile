@@ -7,29 +7,29 @@ pipeline {
         cron('0 14 * * 5')
     }
     stages {
-        stage('Cleanup Workspace') {
+        stage('tmp') {
             steps {
                 sh 'rm -rf *'
                 sh 'rm -rf bundle bundle.zip junit.xml'
             }
         }
-        stage('Checkout Source') {
+        stage('fetching source') {
             steps {
                 git branch: 'main', credentialsId: 'github', url: 'git@github.com:MilanHermansPXL/calculator-app-finished.git'
             }
         }
-        stage('Install Dependencies') {
+        stage('install dependencies') {
             steps {
                 sh 'npm install'
             }
         }
-        stage('Unit Test') {
+        stage('unit test') {
             steps {
                 sh 'npm test --reporters=jest-junit'
                 junit 'junit.xml'
             }
         }
-        stage("Create Bundle") {
+        stage("create bundle") {
             steps {
                 sh 'mkdir -p bundle' 
                 sh '''
