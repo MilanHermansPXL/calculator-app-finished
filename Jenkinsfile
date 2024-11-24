@@ -42,7 +42,7 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true 
-@@ -48,9 +47,7 @@
+
             archiveArtifacts artifacts: 'bundle.zip', allowEmptyArchive: false
         }
         failure {
