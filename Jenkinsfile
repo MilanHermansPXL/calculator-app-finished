@@ -20,9 +20,14 @@ pipeline {
         }
         stage('install dependencies') {
             steps {
+                // Verwijder node_modules en package-lock.json om alles schoon te starten
+                sh 'rm -rf node_modules package-lock.json'
+
+                // Installeer alleen express
                 sh 'npm install express'
             }
         }
+
         stage('unit test') {
             steps {
                 sh 'npm test --reporters=jest-junit'
