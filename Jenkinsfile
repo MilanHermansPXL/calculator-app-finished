@@ -4,7 +4,7 @@ pipeline {
         nodejs 'TINnode-devops'
     }
     triggers {
-        cron('0 14 * * 5') // Automatisch uitvoeren elke vrijdag om 14:00
+        cron('0 14 * * 5')
     }
     stages {
         stage('Cleanup Workspace') {
@@ -29,24 +29,24 @@ pipeline {
                 junit 'junit.xml'
             }
         }
-        stage('create bundle'){
-            steps{
-                sh 'mkdir bundle'
-                sh 'rsync -av --exclude="bundle" --exclude=".*" ./ bundle/'
-                sh 'ls -l /bundle'
-                sh 'zip bundle.zip bundle'
+        stage("Create Bundle") {
+            steps {
+                sh 'mkdir -p bundle' 
+                sh '''
+                rsync -av --exclude=".git" --exclude=".gitignore" --exclude="README.md" --exclude="Jenkinsfile" --exclude="test/" ./ bundle/
+                '''
+                sh 'zip -r bundle.zip bundle' 
             }
         }
-
     }
     post {
         always {
             archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true 
-        }
-        success {
+@@ -48,9 +47,7 @@
             archiveArtifacts artifacts: 'bundle.zip', allowEmptyArchive: false
         }
         failure {
+            
             sh 'echo "Pipeline poging faalt op $(date)" >> ~/jenkinserrorlog'
         }
     }
