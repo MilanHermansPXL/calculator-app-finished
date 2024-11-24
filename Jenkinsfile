@@ -37,8 +37,9 @@ pipeline {
                     
                     // Gebruik rsync om de gewenste bestanden te kopiëren
                     sh '''
-                        rsync -av --exclude="*" --include="src/" --include="package.json" --include="package-lock.json" --include="config/**" ./ bundle/
-                    '''
+    rsync -av --exclude=".git" --exclude="Jenkinsfile" --exclude="README.md" --exclude="test/" --include="*/" --include="src/**" --include="package.json" --include="package-lock.json" --include="config/**" ./ bundle/
+'''
+
                     sh 'ls -l bundle/'
                     // Maak een zip van de map 'bundle'
                     sh 'zip -r bundle.zip bundle'
