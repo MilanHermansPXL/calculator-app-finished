@@ -29,21 +29,12 @@ pipeline {
                 junit 'junit.xml'
             }
         }
-        stage("Create Bundle") {
-            steps {
-                script {
-                    // Maak de 'bundle' map
-                    sh 'mkdir -p bundle'
-                    
-                    // Gebruik rsync om de gewenste bestanden te kopiëren
-                    sh '''
-    rsync -av --exclude=".git" --exclude="Jenkinsfile" --exclude="README.md" --exclude="test/" --include="*/" --include="src/**" --include="package.json" --include="package-lock.json" --include="config/**" ./ bundle/
-'''
-
-                    sh 'ls -l bundle/'
-                    // Maak een zip van de map 'bundle'
-                    sh 'zip -r bundle.zip bundle'
-                }
+        stage('create bundle'){
+            steps{
+                sh 'mkdir bundle'
+                sh 'rsync -av --exclude="bundle" --exclude=".*" ./ bundle/'
+                sh 'ls -l /bundle'
+                sh 'zip bundle.zip bundle'
             }
         }
 
