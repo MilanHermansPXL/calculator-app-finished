@@ -31,13 +31,21 @@ pipeline {
         }
         stage("Create Bundle") {
             steps {
-                sh 'mkdir -p bundle' 
-                sh '''
-                rsync -av --exclude=".git" --exclude=".gitignore" --exclude="README.md" --exclude="Jenkinsfile" --exclude="test/" ./ bundle/
-                '''
-                sh 'zip -r bundle.zip bundle' 
+                script {
+                    // Maak de 'bundle' map
+                    sh 'mkdir -p bundle'
+                    
+                    // Gebruik rsync om de gewenste bestanden te kopiëren
+                    sh '''
+                        rsync -av --exclude="*" --include="src/" --include="package.json" --include="package-lock.json" --include="config/**" ./ bundle/
+                    '''
+                    
+                    // Maak een zip van de map 'bundle'
+                    sh 'zip -r bundle.zip bundle'
+                }
             }
         }
+
     }
     post {
         always {
