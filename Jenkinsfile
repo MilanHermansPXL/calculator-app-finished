@@ -42,14 +42,8 @@ pipeline {
             archiveArtifacts artifacts: 'bundle.zip', allowEmptyArchive: false
         }
         failure {
-            script {
-                def errorMessage = "Pipeline poging faalt op $(date)"
-                sh """
-                    if [ ! -f ~/jenkinserrorlog ]; then
-                        touch ~/jenkinserrorlog
-                    fi
-                    echo "${errorMessage}" >> ~/jenkinserrorlog
-                """
+            failure {
+            sh 'echo "Pipeline poging faalt op $(date)" >> ~/jenkinserrorlog'
             }
         }
     }
