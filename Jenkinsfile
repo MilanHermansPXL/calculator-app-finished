@@ -45,9 +45,9 @@ pipeline {
             archiveArtifacts artifacts: 'bundle.zip', allowEmptyArchive: false
         }
         failure {
-            failure {
+            
             sh 'echo "Pipeline poging faalt op $(date)" >> ~/jenkinserrorlog'
-            }
         }
     }
 }
+
