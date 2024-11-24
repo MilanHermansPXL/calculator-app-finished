@@ -11,7 +11,6 @@ pipeline {
             steps {
                 sh 'rm -rf *'
                 sh 'rm -rf bundle bundle.zip junit.xml'
-                sh 'echo "Pipeline poging faalt op $(date)" '
             }
         }
         stage('fetching source') {
