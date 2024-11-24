@@ -20,7 +20,7 @@ pipeline {
         }
         stage('install dependencies') {
             steps {
-                sh 'npm install express'
+                sh 'rm -rf node_modules'
             }
         }
         stage('unit test') {
