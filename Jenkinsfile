@@ -31,20 +31,15 @@ pipeline {
         }
         stage("Create Bundle") {
             steps {
-                sh 'mkdir -p bundle'
+                sh 'mkdir -p bundle' 
                 sh '''
-                rsync -av \
-                    --exclude=".git" \  // Uitsluiten van de .git folder
-                    --exclude=".gitignore" \  // Uitsluiten van .gitignore
-                    --exclude="README.md" \  // Uitsluiten van README.md
-                    --exclude="Jenkinsfile" \  // Uitsluiten van de Jenkinsfile
-                    --exclude="test/" \  // Uitsluiten van de test folder
-                    ./ bundle/  // Kopieer alles naar de bundelmap, behalve bovenstaande bestanden
+                rsync -av --exclude=".git" --exclude=".gitignore" --exclude="README.md" --exclude="Jenkinsfile" --exclude="test/" ./ bundle/
                 '''
-                sh 'zip -r bundle.zip bundle'
+                sh 'zip -r bundle.zip bundle' 
             }
         }
-        
+
+
     post {
         always {
             archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true 
