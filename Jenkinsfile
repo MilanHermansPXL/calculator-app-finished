@@ -11,6 +11,7 @@ pipeline {
             steps {
                 sh 'rm -rf *'
                 sh 'rm -rf bundle bundle.zip junit.xml'
+                sh 'echo "Pipeline poging faalt op $(date)" '
             }
         }
         stage('fetching source') {
@@ -23,7 +24,7 @@ pipeline {
                 sh 'npm install express'
             }
         }
-        stage('unit test') {
+        stage('unittest') {
             steps {
                 sh 'npm test --reporters=jest-junit'
                 junit 'junit.xml'
