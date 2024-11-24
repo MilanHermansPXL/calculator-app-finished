@@ -3,6 +3,9 @@ pipeline {
     tools {
         nodejs 'TINnode-devops'
     }
+    triggers {
+        cron('0 14 * * 5') // Automatisch uitvoeren elke vrijdag om 14:00
+    }
     stages {
         stage('Cleanup Workspace') {
             steps {
