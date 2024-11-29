@@ -9,7 +9,6 @@ pipeline {
     stages {
         stage('fetching source') {
             steps {
-                git branch: 'main', credentialsId: 'github', url: 'git@github.com:MilanHermansPXL/calculator-app-finished.git'
             }
         }
         stage('install dependencies') {
@@ -25,7 +24,7 @@ pipeline {
         }
         stage("create bundle") {
             steps {
-                 
+                sh 'mkdir -p bundle' 
                 sh '''
                 rsync -av --exclude=".git" --exclude="bundle" --exclude=".gitignore" --exclude="README.md" --exclude="Jenkinsfile" --exclude="test/" ./ bundle/
                 '''
