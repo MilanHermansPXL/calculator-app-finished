@@ -7,12 +7,6 @@ pipeline {
         cron('0 14 * * 5')
     }
     stages {
-        stage('tmp') {
-            steps {
-                sh 'rm -rf *'
-                sh 'rm -rf bundle bundle.zip junit.xml'
-            }
-        }
         stage('fetching source') {
             steps {
                 git branch: 'main', credentialsId: 'github', url: 'git@github.com:MilanHermansPXL/calculator-app-finished.git'
@@ -44,6 +38,9 @@ pipeline {
             archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true 
 
             archiveArtifacts artifacts: 'bundle.zip', allowEmptyArchive: false
+
+            sh 'rm -rf *'
+            sh 'rm -rf bundle bundle.zip junit.xml'
         }
         failure {
             
