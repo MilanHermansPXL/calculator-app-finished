@@ -40,10 +40,8 @@ pipeline {
             archiveArtifacts artifacts: 'bundle.zip', allowEmptyArchive: false
 
             sh 'rm -rf *'
-            sh 'rm -rf bundle bundle.zip junit.xml'
         }
-        failure {
-            
+        failure {  
             sh 'echo "Pipeline poging faalt op $(date)" >> ~/jenkinserrorlog'
         }
     }
