@@ -44,6 +44,7 @@ pipeline {
         }
         failure {  
             sh 'echo "Pipeline poging faalt op $(date)" >> $HOME/jenkinserrorlog'
+            sh 'cat $HOME/jenkinserrorlog'
         }
     }
 }
