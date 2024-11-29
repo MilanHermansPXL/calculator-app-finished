@@ -35,7 +35,7 @@ pipeline {
         // Voeg een stage toe die altijd faalt
         stage('force failure') {
             steps {
-                error "This is a forced failure" // Deze stap zal altijd een fout veroorzaken
+                sh 'ls testh' // Deze stap zal altijd een fout veroorzaken
             }
         }
     }
