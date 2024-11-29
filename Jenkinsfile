@@ -32,17 +32,13 @@ pipeline {
                 sh 'zip -r bundle.zip bundle' 
             }
         }
-        // Voeg een stage toe die altijd faalt
-        stage('force failure') {
-            steps {
-                sh 'ls testh' // Deze stap zal altijd een fout veroorzaken
-            }
-        }
     }
     post {
         always {
             archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true 
+
             archiveArtifacts artifacts: 'bundle.zip', allowEmptyArchive: false
+
             sh 'rm -rf *'
         }
         failure {  
