@@ -25,7 +25,7 @@ pipeline {
         }
         stage("create bundle") {
             steps {
-                sh 'mkdir -p bundle' 
+                 
                 sh '''
                 rsync -av --exclude=".git" --exclude="bundle" --exclude=".gitignore" --exclude="README.md" --exclude="Jenkinsfile" --exclude="test/" ./ bundle/
                 '''
