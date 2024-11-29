@@ -42,7 +42,7 @@ pipeline {
             sh 'rm -rf *'
         }
         failure {  
-            sh 'echo "Pipeline poging faalt op $(date)" >> ~/jenkinserrorlog'
+            sh 'echo "Pipeline poging faalt op $(date)" >> $HOME/jenkinserrorlog'
         }
     }
 }
