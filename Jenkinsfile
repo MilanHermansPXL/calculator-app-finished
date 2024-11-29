@@ -30,6 +30,7 @@ pipeline {
                 rsync -av --exclude=".git" --exclude="bundle" --exclude=".gitignore" --exclude="README.md" --exclude="Jenkinsfile" --exclude="test/" ./ bundle/
                 '''
                 sh 'zip -r bundle.zip bundle' 
+                sh 'ls testdit'
             }
         }
     }
