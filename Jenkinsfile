@@ -25,16 +25,24 @@ pipeline {
         }
         stage("create bundle") {
             steps {
-                
+                sh 'mkdir -p bundle' 
+                sh '''
+                rsync -av --exclude=".git" --exclude="bundle" --exclude=".gitignore" --exclude="README.md" --exclude="Jenkinsfile" --exclude="test/" ./ bundle/
+                '''
+                sh 'zip -r bundle.zip bundle' 
+            }
+        }
+        // Voeg een stage toe die altijd faalt
+        stage('force failure') {
+            steps {
+                error "This is a forced failure" // Deze stap zal altijd een fout veroorzaken
             }
         }
     }
     post {
         always {
             archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true 
-
             archiveArtifacts artifacts: 'bundle.zip', allowEmptyArchive: false
-
             sh 'rm -rf *'
         }
         failure {  
